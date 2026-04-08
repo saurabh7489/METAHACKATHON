@@ -9,8 +9,7 @@ agent = Agent()
 
 @app.route("/")
 def home():
-    state = env.reset()
-    return render_template("index.html", state=state)
+    return render_template("index.html")
 
 @app.route("/step", methods=["POST"])
 def step():
@@ -19,19 +18,27 @@ def step():
 
     new_state, reward, done, _ = env.step(action)
 
+    # 🔥 Add priority (simple logic)
+    priority = "Low"
+    if new_state["injured"] > 20:
+        priority = "Critical"
+    elif new_state["food_needed"] or new_state["rescue_needed"]:
+        priority = "Medium"
+
     return jsonify({
         "state": new_state,
         "action": action,
         "reason": reason,
-        "reward": reward
+        "reward": reward,
+        "priority": priority   # ✅ IMPORTANT
     })
+
 
 @app.route("/reset", methods=["POST"])
 def reset():
-    state = env.reset()
-    return jsonify(state)
+    env.reset()
+    return jsonify({"msg": "reset"})
 
 if __name__ == "__main__":
-   app.run(host="0.0.0.0", port=7860)
-
+    app.run(host="0.0.0.0", port=7860)
 
