@@ -5,7 +5,9 @@ function getActionName(action) {
 }
 
 function runStep() {
-    fetch('/step')
+    fetch('/step', {
+        method: 'POST'
+    })
     .then(res => res.json())
     .then(data => {
         document.getElementById("zone").innerText = data.state.zone;
@@ -24,7 +26,9 @@ function runStep() {
 }
 
 function resetEnv() {
-    fetch('/reset')
+    fetch('/reset', {
+        method: 'POST'
+    })
     .then(res => res.json())
     .then(data => {
         totalScore = 0;
