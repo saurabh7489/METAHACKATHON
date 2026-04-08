@@ -1,14 +1,28 @@
+import random
+
 class Agent:
     def act(self, state):
-        if state["zone"] == "Zone A" and state["injured"] > 20:
-            return 0, "Critical injuries in Zone A → sending ambulance"
-        elif state["injured"] > 0:
-            return 0, "Injuries detected → ambulance"
-        elif state["rescue_needed"]:
-            return 2, "Rescue needed → boat"
-        elif state["food_needed"]:
-            return 1, "Food needed → sending food"
-        else:
-            return 3, "No urgent need → waiting"
 
+        actions = []
 
+        # Critical injury
+        if state["injured"] > 20:
+            actions.append((0, "Critical injuries → ambulance"))
+            actions.append((4, "Deploy doctors for support"))
+
+        # Food needed
+        if state["food_needed"]:
+            actions.append((1, "Food shortage → supply food"))
+            actions.append((6, "Send water supply"))
+
+        # Rescue needed
+        if state["rescue_needed"]:
+            actions.append((2, "Rescue needed → boat"))
+            actions.append((8, "Helicopter rescue"))
+
+        # If nothing urgent
+        if not actions:
+            actions.append((15, "Monitoring situation"))
+
+        # 🔥 RANDOMLY PICK ONE
+        return random.choice(actions)
