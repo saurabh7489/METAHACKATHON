@@ -1,0 +1,25 @@
+name: ai-disaster-response-env
+
+environment:
+  observation_space:
+    people: int
+    injured: int
+    food_needed: bool
+    rescue_needed: bool
+
+  action_space:
+    0: send_ambulance
+    1: send_food
+    2: send_boat
+    3: wait
+
+  reward:
+    description: >
+      Rewards are based on correct resource allocation.
+      Ambulance for injured gives highest reward.
+      Wrong actions penalized.
+
+  difficulty_levels:
+    easy: low people, fewer injuries
+    medium: moderate needs
+    hard: high injuries + multiple needs

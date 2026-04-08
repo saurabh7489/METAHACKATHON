@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Disaster Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>🌍 AI Disaster Response Dashboard</h1>
+
+<div class="container">
+
+    <div class="card">
+        <h2>📍 Zone Info</h2>
+        <p>👥 People: <span id="people">{{ state.people }}</span></p>
+        <p>🤕 Injured: <span id="injured">{{ state.injured }}</span></p>
+        <p>🍞 Food: <span id="food">{{ state.food_needed }}</span></p>
+        <p>🚤 Rescue: <span id="rescue">{{ state.rescue_needed }}</span></p>
+    </div>
+
+    <div class="card">
+        <h2>🤖 Decision</h2>
+        <p>🚑 Action: <span id="action">-</span></p>
+        <p>🧠 Reason: <span id="reason">-</span></p>
+        <p>⭐ Reward: <span id="reward">0</span></p>
+        <p>📊 Score: <span id="score">0</span></p>
+    </div>
+
+</div>
+
+<button onclick="runStep()">▶ Run</button>
+<button onclick="resetEnv()">🔄 Reset</button>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
