@@ -12,7 +12,7 @@ def home():
     state = env.reset()
     return render_template("index.html", state=state)
 
-@app.route("/step")
+@app.route("/step", methods=["POST"])
 def step():
     state = env.get_state()
     action, reason = agent.act(state)
@@ -26,11 +26,12 @@ def step():
         "reward": reward
     })
 
-@app.route("/reset")
+@app.route("/reset", methods=["POST"])
 def reset():
     state = env.reset()
     return jsonify(state)
 
 if __name__ == "__main__":
    app.run(host="0.0.0.0", port=7860)
+
 
