@@ -6,11 +6,14 @@ class DisasterEnv:
 
     def reset(self):
         self.state = {
-            "people": random.randint(50, 200),
-            "injured": random.randint(0, 50),
-            "food_needed": random.choice([True, False]),
-            "rescue_needed": random.choice([True, False])
-        }
+        
+    "zone": random.choice(["Zone A", "Zone B", "Zone C"]),
+    "people": random.randint(50, 200),
+    "injured": random.randint(0, 50),
+    "food_needed": random.choice([True, False]),
+    "rescue_needed": random.choice([True, False])
+}
+
         return self.state
 
     def get_state(self):
@@ -41,3 +44,4 @@ class DisasterEnv:
         )
 
         return self.state, reward, done, {}
+    

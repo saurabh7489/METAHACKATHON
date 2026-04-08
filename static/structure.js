@@ -8,7 +8,7 @@ function runStep() {
     fetch('/step')
     .then(res => res.json())
     .then(data => {
-
+        document.getElementById("zone").innerText = data.state.zone;
         document.getElementById("people").innerText = data.state.people;
         document.getElementById("injured").innerText = data.state.injured;
         document.getElementById("food").innerText = data.state.food_needed;

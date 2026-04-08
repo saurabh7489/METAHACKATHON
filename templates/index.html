@@ -12,6 +12,7 @@
 
     <div class="card">
         <h2>📍 Zone Info</h2>
+        <p>📍 Location: <span id="zone">{{ state.zone }}</span></p>
         <p>👥 People: <span id="people">{{ state.people }}</span></p>
         <p>🤕 Injured: <span id="injured">{{ state.injured }}</span></p>
         <p>🍞 Food: <span id="food">{{ state.food_needed }}</span></p>
@@ -31,6 +32,6 @@
 <button onclick="runStep()">▶ Run</button>
 <button onclick="resetEnv()">🔄 Reset</button>
 
-<script src="/static/script.js"></script>
+<script src="/static/structure.js"></script>
 </body>
 </html>
