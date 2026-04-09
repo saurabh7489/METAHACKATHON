@@ -3,7 +3,7 @@ name = "disaster-env"
 version = "0.1.0"
 description = "AI Disaster Response Environment for Hackathon"
 authors = [
-    {name="Saurabh Pandey", email="your_email@example.com"}
+    {name="Saurabh Pandey", email="saurabhpandey7489@example.com"}
 ]
 dependencies = [
     "flask"
