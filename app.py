@@ -34,6 +34,7 @@ def step():
     return jsonify({
         "state": new_state,
         "action": action,
+        "done": done,
         "reason": reason,
         "reward": reward,
         "done": done,
