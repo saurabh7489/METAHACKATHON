@@ -1,22 +1,23 @@
 from env import DisasterEnv
 
-# Initialize environment
+# Create environment globally
 env = DisasterEnv()
 
 def reset():
     """
-    Reset the environment and return initial state.
+    Reset the environment and return initial state as a dict
     """
-    return env.reset()
+    state = env.reset()
+    return state  # Must be a dictionary
 
 def step(action):
     """
-    Take an action and return result in OpenEnv format:
+    Take an action (integer) and return dict:
     {
-        "state": ...,
-        "reward": ...,
-        "done": ...,
-        "info": {}
+        "state": ...,   # dict
+        "reward": ...,  # number
+        "done": ...,    # boolean
+        "info": {}      # optional dictionary
     }
     """
     state, reward, done, info = env.step(action)
