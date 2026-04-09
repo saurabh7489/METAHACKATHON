@@ -3,26 +3,33 @@ import random
 class Agent:
     def act(self, state):
 
-        actions = []
+        # 🚑 Critical injuries
+        if state["injured"] > 25:
+            return random.choice([0, 4, 5]), "High injuries → ambulance / doctors / medical camp"
 
-        # Critical injury
-        if state["injured"] > 20:
-            actions.append((0, "Critical injuries → ambulance"))
-            actions.append((4, "Deploy doctors for support"))
+        elif state["injured"] > 0:
+            return random.choice([0, 4, 7]), "Treat injured → ambulance / doctors / medicines"
 
-        # Food needed
-        if state["food_needed"]:
-            actions.append((1, "Food shortage → supply food"))
-            actions.append((6, "Send water supply"))
+        # 🍲 Food / water
+        elif state["food_needed"]:
+            return random.choice([1, 6, 18]), "Food/water shortage → supply or shelter"
 
-        # Rescue needed
-        if state["rescue_needed"]:
-            actions.append((2, "Rescue needed → boat"))
-            actions.append((8, "Helicopter rescue"))
+        # 🚤 Rescue
+        elif state["rescue_needed"]:
+            return random.choice([2, 8, 9]), "People trapped → rescue operations"
 
-        # If nothing urgent
-        if not actions:
-            actions.append((15, "Monitoring situation"))
+        # ⚡ Infrastructure issues
+        elif random.random() < 0.3:
+            return random.choice([16, 17, 19]), "Infrastructure damage → restore power / network / roads"
 
-        # 🔥 RANDOMLY PICK ONE
-        return random.choice(actions)
+        # 🦠 Pandemic scenario
+        elif random.random() < 0.3:
+            return random.choice([10, 11, 12, 13]), "Health safety → quarantine / sanitize / masks / vaccination"
+
+        # 📢 Emergency alert
+        elif random.random() < 0.2:
+            return 14, "Alerting authorities"
+
+        # 👀 Default monitoring
+        else:
+            return random.choice([3, 15]), "Monitoring situation"

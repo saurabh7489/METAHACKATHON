@@ -1,28 +1,34 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from env import DisasterEnv
 from agent import Agent
 
 app = Flask(__name__)
 
+# Create environment and agent
 env = DisasterEnv()
 agent = Agent()
 
 @app.route("/")
 def home():
+    # Serve the main page
     return render_template("index.html")
 
 @app.route("/step", methods=["POST"])
 def step():
+    # Get current state
     state = env.get_state()
+
+    # Agent decides action
     action, reason = agent.act(state)
 
-    new_state, reward, done, _ = env.step(action)
+    # Apply action in environment
+    new_state, reward, done, info = env.step(action)
 
-    # 🔥 Add priority (simple logic)
+    # Determine priority
     priority = "Low"
-    if new_state["injured"] > 20:
+    if new_state.get("injured", 0) > 20:
         priority = "Critical"
-    elif new_state["food_needed"] or new_state["rescue_needed"]:
+    elif new_state.get("food_needed") or new_state.get("rescue_needed"):
         priority = "Medium"
 
     return jsonify({
@@ -30,15 +36,18 @@ def step():
         "action": action,
         "reason": reason,
         "reward": reward,
-        "priority": priority   # ✅ IMPORTANT
+        "done": done,
+        "priority": priority
     })
-
 
 @app.route("/reset", methods=["POST"])
 def reset():
-    env.reset()
-    return jsonify({"msg": "reset"})
+    # Reset environment and return new state
+    new_state = env.reset()
+    return jsonify({
+        "msg": "Environment reset!",
+        "state": new_state
+    })
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=7860)
-
+    app.run(host="0.0.0.0", port=7860, debug=True)

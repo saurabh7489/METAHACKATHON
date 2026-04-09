@@ -3,14 +3,16 @@ import random
 class DisasterEnv:
     def __init__(self):
         self.reset()
-
+       
     def reset(self):
         self.state = {
             "zone": random.choice(["Zone A", "Zone B", "Zone C"]),
-            "people": random.randint(50, 200),
-            "injured": random.randint(10, 50),
+            "people": random.choice([50, 35, 40, 55, 32, 20, 25, 80, 200]),
+            "injured": random.choice([5, 8, 12, 15, 20, 25, 30, 48, 50]),
             "food_needed": random.choice([True, False]),
-            "rescue_needed": random.choice([True, False])
+            "rescue_needed": random.choice([True, False]),
+            "infrastructure_damage": random.choice([True, False]),
+            "power_outage": random.choice([True, False])
         }
         return self.state
 
@@ -44,28 +46,33 @@ class DisasterEnv:
             else:
                 reward += 1
 
-        # ⏳ Wait / other
+        # ⏳ Wait / others
         else:
             reward += 0
 
-        # 🔥 DYNAMIC CHANGE (important)
+        # 🔥 Dynamic changes in environment
         self.state["injured"] = max(0, self.state["injured"] + random.randint(-3, 5))
 
-        # Random new needs
+        # Random new needs appear
         if random.random() < 0.3:
             self.state["food_needed"] = True
 
         if random.random() < 0.3:
             self.state["rescue_needed"] = True
 
-        # Random zone change (rare)
-        if random.random() < 0.2:
+        # 🔄 Zone change (dynamic)
+        if random.random() < 0.3:
             self.state["zone"] = random.choice(["Zone A", "Zone B", "Zone C"])
 
-        # ✅ Reward never negative
-        reward = max(0, reward)
+        # 🧠 Auto logic
+        if self.state["injured"] == 0:
+            self.state["rescue_needed"] = False
 
-        done = False  # continuous simulation
+        # 🎯 DONE condition
+        done = (
+            self.state["injured"] <= 0 and
+            not self.state["food_needed"] and
+            not self.state["rescue_needed"]
+        )
 
         return self.state, reward, done, {}
-
