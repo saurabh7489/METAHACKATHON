@@ -13,7 +13,6 @@ app = Flask(
     static_folder="../static",
 )
 
-# Global environment and agents
 env = DisasterEnv(difficulty="medium")
 agents = {
     "rule": RuleBasedAgent(),
@@ -42,22 +41,17 @@ def home():
 
 @app.route("/state", methods=["GET"])
 def get_state():
-    """Return current environment state without taking a step."""
     return jsonify({"state": env.get_state()})
 
 
 @app.route("/step", methods=["POST"])
 def step():
     data = request.get_json(silent=True) or {}
-
-    # Allow agent selection per request
     agent_name = data.get("agent", active_agent)
     agent = agents.get(agent_name, agents["rule"])
-
     state = env.get_state()
     action, reason = agent.act(state)
     new_state, reward, done, info = env.step(action)
-
     return jsonify({
         "state": new_state,
         "action": action,
@@ -83,9 +77,12 @@ def reset():
 
 @app.route("/agents", methods=["GET"])
 def list_agents():
-    """List available agents."""
     return jsonify({"agents": list(agents.keys()), "active": active_agent})
 
 
-if __name__ == "__main__":
+def main():
     app.run(host="0.0.0.0", port=7860, debug=False)
+
+
+if __name__ == "__main__":
+    main()
