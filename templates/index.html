@@ -1,42 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AI Disaster Dashboard</title>
-    <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <title>AI Disaster Response Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<h1>🌍 AI Disaster Response Dashboard</h1>
+<h1>AI Disaster Response Dashboard</h1>
+
+<div class="controls">
+  <label>Difficulty:
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium" selected>Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+  </label>
+  <label>Agent:
+    <select id="agent">
+      <option value="rule">Rule-Based</option>
+      <option value="greedy">Greedy</option>
+      <option value="random">Random</option>
+    </select>
+  </label>
+  <button onclick="resetEnv()">Reset</button>
+  <button onclick="runStep()">Run Step</button>
+  <button onclick="runEpisode()">Auto Run</button>
+  <button onclick="stopEpisode()">Stop</button>
+</div>
+
+<div class="status-bar">
+  <span>Step: <strong id="step">0</strong> / <strong id="max-steps">-</strong></span>
+  <span>Total Score: <strong id="score">0</strong></span>
+  <span>Difficulty: <strong id="diff-label">medium</strong></span>
+  <span>Status: <span id="ep-status" class="badge badge-running">Running</span></span>
+</div>
 
 <div class="container">
 
-    <div class="card">
-        <h2>📍 Zone Info</h2>
-      <p>📍 Location: <span id="zone">No Data</span></p>
-<p>👥 People: <span id="people">No Data</span></p>
-<p>🤕 Injured: <span id="injured">No Data</span></p>
-<p>🍲 Food Needed: <span id="food">No Data</span></p>
-<p>🚤 Rescue Needed: <span id="rescue">No Data</span></p>
+  <div class="card">
+    <h2>Zone Info</h2>
+    <div class="row"><span class="label">Location</span><span id="zone">-</span></div>
+    <div class="row"><span class="label">People</span><span id="people">-</span></div>
+    <div class="row"><span class="label">Injured</span><span id="injured">-</span></div>
+    <div class="row"><span class="label">Food needed</span><span id="food">-</span></div>
+    <div class="row"><span class="label">Rescue needed</span><span id="rescue">-</span></div>
+    <div class="row"><span class="label">Power outage</span><span id="power">-</span></div>
+    <div class="row"><span class="label">Infra damage</span><span id="infra">-</span></div>
+    <div class="row"><span class="label">Disease outbreak</span><span id="disease">-</span></div>
+  </div>
 
-
-    </div>
-
-    <div class="card">
-        <h2>🤖 Decision</h2>
-        <p>🚑 Action: <span id="action">-</span></p>
-      <p>⚡ Priority: <span id="priority"></span></p>
-<p>✅ Status: <span id="done">No Data</span></p>
-
-
-        <p>🧠 Reason: <span id="reason">-</span></p>
-        <p>⭐ Reward: <span id="reward">0</span></p>
-        <p>📊 Score: <span id="score">0</span></p>
-    </div>
+  <div class="card">
+    <h2>Agent Decision</h2>
+    <div class="row"><span class="label">Action</span><span id="action">-</span></div>
+    <div class="row"><span class="label">Priority</span><span id="priority">-</span></div>
+    <div class="row"><span class="label">Reason</span><span id="reason" class="reason-text">-</span></div>
+    <div class="row"><span class="label">Reward</span><span id="reward">-</span></div>
+    <div class="row"><span class="label">Episode done</span><span id="done">-</span></div>
+  </div>
 
 </div>
-
-<button onclick="runStep()">▶ Run</button>
-<button onclick="resetEnv()">🔄 Reset</button>
 
 <script src="/static/script.js"></script>
 </body>
