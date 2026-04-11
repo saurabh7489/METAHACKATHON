@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "ai-disaster-response-env"
+version = "1.0.0"
+description = "An OpenEnv-compatible reinforcement learning environment for AI disaster response simulation"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [
+  { name = "Saurabh" }
+]
+keywords = ["reinforcement-learning", "openenv", "disaster-response", "ai", "simulation"]
+dependencies = [
+    "flask>=3.0.3",
+    "pyyaml>=6.0.1",
+]
+
+[project.urls]
+Homepage = "https://huggingface.co/spaces/YOUR_USERNAME/ai-disaster-response-env"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.html", "*.css", "*.js", "*.txt"]
